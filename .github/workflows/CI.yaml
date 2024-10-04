@@ -1,6 +1,6 @@
 name: CI
 
-run-name: Running tests on ${{ github.head_ref || github.ref_name }} by @${{ github.actor }}
+run-name: Running tests on '${{ github.head_ref || github.ref_name }}' by @${{ github.actor }}
 
 on: pull_request
 
