@@ -2,7 +2,7 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 
 plugins {
     java
-    id("org.springframework.boot") version "3.3.4"
+    id("org.springframework.boot") version "3.4.0-SNAPSHOT"
     id("io.spring.dependency-management") version "1.1.6"
     id("com.diffplug.spotless") version "7.0.0.BETA2"
 }
