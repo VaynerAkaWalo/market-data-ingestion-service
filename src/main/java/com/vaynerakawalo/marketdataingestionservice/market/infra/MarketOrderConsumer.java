@@ -28,8 +28,7 @@ public class MarketOrderConsumer extends MessageConsumer<MarketOrdersMessage> {
 
   @Override
   public void handleMessage(MarketOrdersMessage entity) {
-    log.info("Ingested orders: {}", entity);
-
+    log.info("Handling market orders message with length {}", entity.orders().size());
     albionRmtBackendProvider.createOrders(entity.orders());
   }
 }

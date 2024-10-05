@@ -23,3 +23,6 @@ spec:
             httpGet:
               path: /health
               port: 8080
+          env:
+            - name: spring_profiles_active
+              value: nats,k8s

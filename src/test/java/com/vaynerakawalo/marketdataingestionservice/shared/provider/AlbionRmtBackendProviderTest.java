@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,7 +31,9 @@ class AlbionRmtBackendProviderTest {
 
   @Test
   void postOrders_clientThrowsException_doesNotThrowException() {
-    doThrow(HttpClientErrorException.class).when(client).postOrders(anyList());
+    doThrow(HttpClientErrorException.create(HttpStatus.NOT_FOUND, "", null, new byte[] {}, null))
+        .when(client)
+        .postOrders(anyList());
 
     provider.createOrders(List.of());
   }
