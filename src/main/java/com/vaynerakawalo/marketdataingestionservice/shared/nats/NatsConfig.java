@@ -1,5 +1,6 @@
 package com.vaynerakawalo.marketdataingestionservice.shared.nats;
 
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nats.client.Connection;
 import io.nats.client.Nats;
@@ -21,6 +22,10 @@ public class NatsConfig {
 
   @Bean
   ObjectMapper objectMapper() {
-    return new ObjectMapper();
+    var mapper = new ObjectMapper();
+
+    var config = mapper.getDeserializationConfig();
+    mapper.setConfig(config.with(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES));
+    return mapper;
   }
 }
