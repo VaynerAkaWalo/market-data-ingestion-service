@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: market-data-ingestion-service
+  labels:
+    app: market-data-ingestion-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: market-data-ingestion-service
+  template:
+    metadata:
+      labels:
+        app: market-data-ingestion-service
+    spec:
+      containers:
+        - name: market-data-ingestion-service
+          image: ghcr.io/vaynerakawalo/market-data-ingestion-service:latest
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
