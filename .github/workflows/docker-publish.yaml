@@ -1,0 +1,43 @@
+name: Publish Image
+
+run-name: Publishing docker image from '${{ github.head_ref || github.ref_name }}' by @${{ github.actor }}
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish-image:
+    name: publish-image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - run: echo "Publishing docker image from ${{ github.head_ref || github.ref_name }} triggered by @${{ github.actor }}"
+
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Get short SHA
+        run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: https://ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/vaynerakawalo/market-data-ingestion-service:${{ env.SHORT_SHA }}
+            ghcr.io/vaynerakawalo/market-data-ingestion-service:latest
+
+      - name: Finally
+        run: echo "Successfully created docker image with tag ${SHORT_SHA}"
