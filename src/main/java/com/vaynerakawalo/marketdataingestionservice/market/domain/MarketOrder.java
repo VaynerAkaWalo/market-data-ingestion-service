@@ -34,7 +34,5 @@ public record MarketOrder(
     Assert.state(
         tier > 0 && tier < 9,
         "Tier must be between 1 and 8 inclusive, invalid value: %s".formatted(tier));
-
-    unitPriceSilver = unitPriceSilver * 10000; // legacy offset of backend
   }
 }
