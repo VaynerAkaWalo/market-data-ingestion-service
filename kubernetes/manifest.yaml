@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: market-data-ingestion-service
+  namespace: albion-rmt-backend
   labels:
     app: market-data-ingestion-service
 spec:
@@ -11,18 +12,20 @@ spec:
       app: market-data-ingestion-service
   template:
     metadata:
+      name: market-data-ingestion-service
       labels:
         app: market-data-ingestion-service
     spec:
       containers:
         - name: market-data-ingestion-service
           image: ghcr.io/vaynerakawalo/market-data-ingestion-service:latest
-          ports:
-            - containerPort: 8080
           livenessProbe:
             httpGet:
-              path: /health
               port: 8080
+              path: /health
           env:
             - name: spring_profiles_active
               value: nats,k8s
+            - name: ALBION-RMT-BACKEND
+              value: albion-rmt-backend:80/api
+      restartPolicy: Always
